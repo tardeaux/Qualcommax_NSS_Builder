@@ -8,10 +8,10 @@ on:
 
 env:
   REMOTE_REPOSITORY: qosmio/openwrt-ipq
-  REMOTE_BRANCH: qualcommax-6.x-nss-wifi
-  CONFIG_FILE: ax3600.config
+  REMOTE_BRANCH: qualcommax-6.x-nss-mx4300
+  CONFIG_FILE: 4300_3600.config
   CUSTOM_FILES_PATH: files/
-  RELEASE_PREFIX: qualcommax-6.x-nss-ath11k-2.12
+  RELEASE_PREFIX: qualcommax-6.x-nss
   NSS_PACKAGES_REPOSITORY: qosmio/nss-packages
   NSS_PACKAGES_REPOSITORY_BRANCH: NSS-12.5-K6.x
 
@@ -84,6 +84,12 @@ jobs:
 
       - name: Download dependencies
         run: make download V=s -j$(nproc)
+
+      - name: Make tools
+        run: make tools/install V=s -j$(nproc)
+
+      - name: Make toolchain
+        run: make toolchain/install V=s -j$(nproc)
 
       - name: Build the firmware image
         run: make world V=s -j$(nproc)
