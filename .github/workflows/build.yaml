@@ -82,6 +82,14 @@ jobs:
           mkdir -p ${{ env.CUSTOM_FILES_PATH }}
           mv custom_repo/${{ env.CUSTOM_FILES_PATH }}* ${{ env.CUSTOM_FILES_PATH }}
 
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: ~/.build-cache
+          key: ${{ runner.OS }}-build-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-cache-
+
       - name: Download dependencies
         run: make download V=s -j$(nproc)
 
