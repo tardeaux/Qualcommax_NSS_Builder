@@ -9,7 +9,8 @@ on:
 env:
   REMOTE_REPOSITORY: qosmio/openwrt-ipq
   REMOTE_BRANCH: qualcommax-6.x-nss-mx4300
-  CONFIG_FILE: 4300_3600.config
+  CONFIG_FILE1: 4300.config
+  CONFIG_FILE2: 3600.config
   CUSTOM_FILES_PATH: files/
   RELEASE_PREFIX: qualcommax-6.x-nss
   NSS_PACKAGES_REPOSITORY: qosmio/nss-packages
@@ -71,7 +72,7 @@ jobs:
 
       - name: Configure firmware image
         run: |
-          mv custom_repo/${{ env.CONFIG_FILE }} .config
+          mv custom_repo/${{ env.CONFIG_FILE1 }} .config
           make defconfig -j$(nproc)
 
       - name: Append CONFIG_RELR=y to target/linux/qualcommax/config-6.6
@@ -99,7 +100,15 @@ jobs:
       - name: Make toolchain
         run: make toolchain/install V=s -j$(nproc)
 
-      - name: Build the firmware image
+      - name: Build the firmware image (Linksys MX4300)
+        run: make world V=s -j$(nproc)
+
+      - name: Configure next firmware image
+        run: |
+          mv custom_repo/${{ env.CONFIG_FILE2 }} .config
+          make defconfig -j$(nproc)
+
+      - name: Build the firmware image (Xiaomi AX3600)
         run: make world V=s -j$(nproc)
 
       - name: Upload artifacts
