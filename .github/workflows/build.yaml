@@ -8,7 +8,7 @@ on:
 
 env:
   REMOTE_REPOSITORY: qosmio/openwrt-ipq
-  REMOTE_BRANCH: qualcommax-6.x-nss-mx4300
+  REMOTE_BRANCH: 24.10-nss-mx4300
   CONFIG_FILE1: mx4300.config
   CONFIG_FILE2: ax3600.config
   CUSTOM_FILES_PATH: files/
